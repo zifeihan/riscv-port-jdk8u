@@ -33,6 +33,9 @@
 #ifdef TARGET_ARCH_aarch64
 # include "nativeInst_aarch64.hpp"
 #endif
+#ifdef TARGET_ARCH_riscv64
+# include "nativeInst_riscv64.hpp"
+#endif
 #ifdef TARGET_ARCH_sparc
 # include "nativeInst_sparc.hpp"
 #endif
@@ -323,14 +326,15 @@ class CompiledStaticCall: public NativeCall {
   friend CompiledStaticCall* compiledStaticCall_at(Relocation* call_site);
 
   // Code
-#if defined(AARCH64) && !defined(ZERO)
+#if (defined(AARCH64) || defined(RISCV64))&& !defined(ZERO)
   static address emit_to_interp_stub(CodeBuffer &cbuf, address mark);
 #else
   static address emit_to_interp_stub(CodeBuffer &cbuf);
 #endif
   static int to_interp_stub_size();
   static int reloc_to_interp_stub();
-
+  //static int to_trampoline_stub_size();
+ 
   // State
   bool is_clean() const;
   bool is_call_to_compiled() const;

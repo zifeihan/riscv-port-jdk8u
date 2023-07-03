@@ -37,6 +37,9 @@
 #ifdef TARGET_ARCH_aarch64
 # include "nativeInst_aarch64.hpp"
 #endif
+#ifdef TARGET_ARCH_riscv64
+# include "nativeInst_riscv64.hpp"
+#endif
 #ifdef TARGET_ARCH_sparc
 # include "nativeInst_sparc.hpp"
 #endif
@@ -116,6 +119,8 @@ class StubRoutines: AllStatic {
 # include "stubRoutines_zero.hpp"
 #elif defined TARGET_ARCH_MODEL_ppc_64
 # include "stubRoutines_ppc_64.hpp"
+#elif defined TARGET_ARCH_MODEL_riscv64
+# include "stubRoutines_riscv64.hpp"
 #endif
 
   static jint    _verify_oop_count;
@@ -130,7 +135,7 @@ class StubRoutines: AllStatic {
   static address _throw_NullPointerException_at_call_entry;
   static address _throw_StackOverflowError_entry;
   static address _handler_for_unsafe_access_entry;
-
+  static address _throw_delayed_StackOverflowError_entry;
   static address _atomic_xchg_entry;
   static address _atomic_xchg_ptr_entry;
   static address _atomic_store_entry;
@@ -219,6 +224,13 @@ class StubRoutines: AllStatic {
   static address _mulAdd;
   static address _montgomeryMultiply;
   static address _montgomerySquare;
+  static address _dsin;
+  static address _dcos;
+  static address _dtan;
+  static address _dlog;
+  static address _dlog10;
+  static address _dexp;
+  static address _dpow;
 
   // These are versions of the java.lang.Math methods which perform
   // the same operations as the intrinsic version.  They are used for
@@ -287,7 +299,7 @@ class StubRoutines: AllStatic {
   static address throw_IncompatibleClassChangeError_entry(){ return _throw_IncompatibleClassChangeError_entry; }
   static address throw_NullPointerException_at_call_entry(){ return _throw_NullPointerException_at_call_entry; }
   static address throw_StackOverflowError_entry()          { return _throw_StackOverflowError_entry; }
-
+  static address throw_delayed_StackOverflowError_entry()  { return _throw_delayed_StackOverflowError_entry; }
   // Exceptions during unsafe access - should throw Java exception rather
   // than crash.
   static address handler_for_unsafe_access()               { return _handler_for_unsafe_access_entry; }
@@ -386,7 +398,13 @@ class StubRoutines: AllStatic {
   static address select_fill_function(BasicType t, bool aligned, const char* &name);
 
   static address zero_aligned_words()   { return _zero_aligned_words; }
-
+  static address dlog()                { return _dlog; }
+  static address dtan()                { return _dtan; }
+  static address dlog10()              { return _dlog10; }
+  static address dexp()                { return _dexp; }
+  static address dpow()                { return _dpow; }
+  static address dsin()                { return _dsin; }
+  static address dcos()                { return _dcos; }
   static double  intrinsic_log(double d) {
     assert(_intrinsic_log != NULL, "must be defined");
     return _intrinsic_log(d);

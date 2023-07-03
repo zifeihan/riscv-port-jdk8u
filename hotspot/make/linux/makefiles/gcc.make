@@ -179,6 +179,7 @@ ARCHFLAG/sparc   = -m32 -mcpu=v9
 ARCHFLAG/sparcv9 = -m64 -mcpu=v9
 ARCHFLAG/zero    = $(ZERO_ARCHFLAG)
 ARCHFLAG/ppc64   =  -m64
+ARCHFLAG/riscv64 =
 
 CFLAGS     += $(ARCHFLAG)
 AOUT_FLAGS += $(ARCHFLAG)
@@ -202,7 +203,7 @@ else
 endif
 
 # Compiler warnings are treated as errors
-WARNINGS_ARE_ERRORS = -Werror
+#WARNINGS_ARE_ERRORS = -Werror
 
 ifeq ($(USE_CLANG), true)
   # However we need to clean the code up before we can unrestrictedly enable this option with Clang

@@ -151,6 +151,7 @@ class Linux {
   static address   ucontext_get_pc(ucontext_t* uc);
   static intptr_t* ucontext_get_sp(ucontext_t* uc);
   static intptr_t* ucontext_get_fp(ucontext_t* uc);
+  static void ucontext_set_pc(ucontext_t* uc, address pc);
 
   static julong physical_memory() { return _physical_memory; }
   static julong host_swap();
@@ -162,6 +163,7 @@ class Linux {
   // Linux class.
   static ExtendedPC fetch_frame_from_ucontext(Thread* thread, ucontext_t* uc,
     intptr_t** ret_sp, intptr_t** ret_fp);
+    static bool get_frame_at_stack_banging_point(JavaThread* thread, ucontext_t* uc, frame* fr);
 
   // This boolean allows users to forward their own non-matching signals
   // to JVM_handle_linux_signal, harmlessly.

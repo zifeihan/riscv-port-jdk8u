@@ -334,6 +334,7 @@ inline int wcslen(const jchar* x) { return wcslen((const wchar_t*)x); }
 #define JLONG_FORMAT           "%ld"
 #endif // _LP64 && __APPLE__
 
+
 // Inlining support
 #define NOINLINE     __attribute__ ((noinline))
 #define ALWAYSINLINE inline __attribute__ ((always_inline))

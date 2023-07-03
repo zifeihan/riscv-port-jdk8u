@@ -496,6 +496,9 @@ static const char* native_arch_name() {
 #ifdef LIBARCH_aarch64
   res = "aarch64";
 #endif
+#ifdef LIBARCH_riscv64
+  res = "riscv64";
+#endif
   if (res == NULL)
     res = "architecture not set in Makefile!";
   return res;

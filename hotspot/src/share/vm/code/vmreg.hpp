@@ -46,9 +46,10 @@
 # include "adfiles/adGlobals_zero.hpp"
 #elif defined TARGET_ARCH_MODEL_ppc_64
 # include "adfiles/adGlobals_ppc_64.hpp"
+#elif defined TARGET_ARCH_MODEL_riscv64
+# include "adfiles/adGlobals_riscv64.hpp"
 #endif
 #endif
-
 //------------------------------VMReg------------------------------------------
 // The VM uses 'unwarped' stack slots; the compiler uses 'warped' stack slots.
 // Register numbers below VMRegImpl::stack0 are the same for both.  Register
@@ -160,6 +161,9 @@ public:
 #endif
 #ifdef TARGET_ARCH_aarch64
 # include "vmreg_aarch64.hpp"
+#endif
+#ifdef TARGET_ARCH_riscv64
+# include "vmreg_riscv64.hpp"
 #endif
 #ifdef TARGET_ARCH_sparc
 # include "vmreg_sparc.hpp"

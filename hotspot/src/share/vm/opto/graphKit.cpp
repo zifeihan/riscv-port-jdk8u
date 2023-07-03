@@ -3848,7 +3848,7 @@ void GraphKit::write_barrier_post(Node* oop_store,
 
   // Smash zero into card
   if( !UseConcMarkSweepGC ) {
-#if defined(AARCH64)
+#if defined(AARCH64) || defined(RISCV64)
     __ store(__ ctrl(), card_adr, zero, bt, adr_type, MemNode::unordered);
 #else
     __ store(__ ctrl(), card_adr, zero, bt, adr_type, MemNode::release);

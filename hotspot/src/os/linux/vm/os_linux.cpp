@@ -1415,7 +1415,7 @@ void os::Linux::clock_init() {
 #ifndef SYS_clock_getres
 
 #if defined(IA32) || defined(AMD64) || defined(AARCH64)
-#define SYS_clock_getres IA32_ONLY(266)  AMD64_ONLY(229) AARCH64_ONLY(114)
+#define SYS_clock_getres IA32_ONLY(266)  AMD64_ONLY(229) AARCH64_ONLY(114) RISCV64_ONLY(114)
 #define sys_clock_getres(x,y)  ::syscall(SYS_clock_getres, x, y)
 #else
 #warning "SYS_clock_getres not defined for this platform, disabling fast_thread_cpu_time"
@@ -1950,6 +1950,10 @@ void * os::dll_load(const char *filename, char *ebuf, int ebuflen)
   #define EM_AARCH64    183               /* ARM AARCH64 */
   #endif
 
+  #ifndef EM_RISCV
+  #define EM_RISCV      243               /* RISC-V */
+  #endif
+
   static const arch_t arch_array[]={
     {EM_386,         EM_386,     ELFCLASS32, ELFDATA2LSB, (char*)"IA 32"},
     {EM_486,         EM_386,     ELFCLASS32, ELFDATA2LSB, (char*)"IA 32"},
@@ -1972,8 +1976,8 @@ void * os::dll_load(const char *filename, char *ebuf, int ebuflen)
     {EM_PARISC,      EM_PARISC,  ELFCLASS32, ELFDATA2MSB, (char*)"PARISC"},
     {EM_68K,         EM_68K,     ELFCLASS32, ELFDATA2MSB, (char*)"M68k"},
     {EM_AARCH64,     EM_AARCH64, ELFCLASS64, ELFDATA2LSB, (char*)"AARCH64"},
+    {EM_RISCV,       EM_RISCV,   ELFCLASSNONE, ELFDATA2MSB, (char*)"RISCV"},
   };
-
   #if  (defined IA32)
     static  Elf32_Half running_arch_code=EM_386;
   #elif   (defined AMD64)
@@ -2004,9 +2008,11 @@ void * os::dll_load(const char *filename, char *ebuf, int ebuflen)
     static  Elf32_Half running_arch_code=EM_68K;
   #elif  (defined AARCH64)
     static  Elf32_Half running_arch_code=EM_AARCH64;
+  #elif  (defined RISCV64)
+    static  Elf32_Half running_arch_code=EM_RISCV;
   #else
     #error Method os::dll_load requires that one of following is defined:\
-         IA32, AMD64, IA64, __sparc, __powerpc__, ARM, S390, ALPHA, MIPS, MIPSEL, PARISC, M68K, AARCH64
+         IA32, AMD64, IA64, __sparc, __powerpc__, ARM, S390, ALPHA, MIPS, MIPSEL, PARISC, M68K, AARCH64, RISCV64
   #endif
 
   // Identify compatability class for VM's architecture and library's architecture
@@ -2955,9 +2961,9 @@ int os::Linux::sched_getcpu_syscall(void) {
   typedef long (*vgetcpu_t)(unsigned int *cpu, unsigned int *node, unsigned long *tcache);
   vgetcpu_t vgetcpu = (vgetcpu_t)VSYSCALL_ADDR(__NR_vgetcpu);
   retval = vgetcpu(&cpu, NULL, NULL);
-#elif defined(IA32) || defined(AARCH64)
+#elif defined(IA32) || defined(AARCH64) || defined(RISCV64)
 # ifndef SYS_getcpu
-#  define SYS_getcpu AARCH64_ONLY(168) IA32_ONLY(318)
+#  define SYS_getcpu AARCH64_ONLY(168) IA32_ONLY(318) RISCV64_ONLY(168)
 # endif
   retval = syscall(SYS_getcpu, &cpu, NULL, NULL);
 #endif
@@ -3513,7 +3519,7 @@ size_t os::Linux::find_large_page_size() {
 
 #ifndef ZERO
   large_page_size = IA32_ONLY(4 * M) AMD64_ONLY(2 * M) IA64_ONLY(256 * M) SPARC_ONLY(4 * M)
-                     ARM_ONLY(2 * M) PPC_ONLY(4 * M) AARCH64_ONLY(2 * M);
+                     ARM_ONLY(2 * M) PPC_ONLY(4 * M) AARCH64_ONLY(2 * M) RISCV64_ONLY(2 * M);
 #endif // ZERO
 
   FILE *fp = fopen("/proc/meminfo", "r");

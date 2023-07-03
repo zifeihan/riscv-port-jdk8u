@@ -32,6 +32,9 @@
 #ifdef TARGET_ARCH_aarch64
 # include "c2_globals_aarch64.hpp"
 #endif
+#ifdef TARGET_ARCH_riscv64
+# include "c2_globals_riscv64.hpp"
+#endif
 #ifdef TARGET_ARCH_sparc
 # include "c2_globals_sparc.hpp"
 #endif
@@ -194,6 +197,8 @@
   product(intx,  LoopUnrollMin, 4,                                          \
           "Minimum number of unroll loop bodies before checking progress"   \
           "of rounds of unroll,optimize,..")                                \
+  product(bool, UseCMoveUnconditionally, false,                             \
+          "Use CMove (scalar and vector) ignoring profitability test.")     \
                                                                             \
   develop(intx, UnrollLimitForProfileCheck, 1,                              \
           "Don't use profile_trip_cnt() to restrict unrolling until "       \

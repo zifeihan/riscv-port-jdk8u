@@ -45,6 +45,8 @@
 # include "adfiles/adGlobals_zero.hpp"
 #elif defined TARGET_ARCH_MODEL_ppc_64
 # include "adfiles/adGlobals_ppc_64.hpp"
+#elif defined TARGET_ARCH_MODEL_riscv64
+# include "adfiles/adGlobals_riscv64.hpp"
 #endif
 #endif // COMPILER2
 #ifdef TARGET_ARCH_zero
@@ -319,7 +321,7 @@ class frame VALUE_OBJ_CLASS_SPEC {
 
   // Address of the temp oop in the frame. Needed as GC root.
   oop* interpreter_frame_temp_oop_addr() const;
-
+  oop* interpreter_frame_mirror_addr() const;
   // BasicObjectLocks:
   //
   // interpreter_frame_monitor_begin is higher in memory than interpreter_frame_monitor_end
@@ -491,6 +493,9 @@ class frame VALUE_OBJ_CLASS_SPEC {
 #endif
 #ifdef TARGET_ARCH_aarch64
 # include "frame_aarch64.hpp"
+#endif
+#ifdef TARGET_ARCH_riscv64
+# include "frame_riscv64.hpp"
 #endif
 #ifdef TARGET_ARCH_sparc
 # include "frame_sparc.hpp"

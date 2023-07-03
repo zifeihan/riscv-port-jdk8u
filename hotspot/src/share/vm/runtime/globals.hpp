@@ -43,6 +43,9 @@
 #ifdef TARGET_ARCH_aarch64
 # include "globals_aarch64.hpp"
 #endif
+#ifdef TARGET_ARCH_riscv64
+# include "globals_riscv64.hpp"
+#endif
 #ifdef TARGET_ARCH_sparc
 # include "globals_sparc.hpp"
 #endif
@@ -75,6 +78,9 @@
 #endif
 #ifdef TARGET_OS_ARCH_linux_aarch64
 # include "globals_linux_aarch64.hpp"
+#endif
+#ifdef TARGET_OS_ARCH_linux_riscv64
+# include "globals_linux_riscv64.hpp"
 #endif
 #ifdef TARGET_OS_ARCH_linux_sparc
 # include "globals_linux_sparc.hpp"
@@ -113,6 +119,9 @@
 #ifdef TARGET_ARCH_aarch64
 # include "c1_globals_aarch64.hpp"
 #endif
+#ifdef TARGET_ARCH_riscv64
+# include "c1_globals_riscv64.hpp"
+#endif
 #ifdef TARGET_ARCH_sparc
 # include "c1_globals_sparc.hpp"
 #endif
@@ -144,6 +153,9 @@
 #endif
 #ifdef TARGET_ARCH_aarch64
 # include "c2_globals_aarch64.hpp"
+#endif
+#ifdef TARGET_ARCH_riscv64
+# include "c2_globals_riscv64.hpp"
 #endif
 #ifdef TARGET_ARCH_sparc
 # include "c2_globals_sparc.hpp"
@@ -612,6 +624,9 @@ class CommandLineFlags {
   product(intx, UseSSE, 99,                                                 \
           "Highest supported SSE instructions set on x86/x64")              \
                                                                             \
+  product(bool, UseFMA, false,                                              \
+          "Control whether FMA instructions are used when available")       \
+                                                                            \
   product(bool, UseAES, false,                                              \
           "Control whether AES instructions can be used on x86/x64")        \
                                                                             \
@@ -730,6 +745,9 @@ class CommandLineFlags {
   product(bool, UseAESIntrinsics, false,                                    \
           "Use intrinsics for AES versions of crypto")                      \
                                                                             \
+ diagnostic(bool, UseAESCTRIntrinsics, false,                               \
+          "Use intrinsics for the paralleled version of AES/CTR crypto")    \
+                                                                            \
   product(bool, UseSHA1Intrinsics, false,                                   \
           "Use intrinsics for SHA-1 crypto hash function")                  \
                                                                             \
@@ -741,6 +759,9 @@ class CommandLineFlags {
                                                                             \
   product(bool, UseCRC32Intrinsics, false,                                  \
           "use intrinsics for java.util.zip.CRC32")                         \
+                                                                            \
+  diagnostic(bool, UseCRC32CIntrinsics, false,                              \
+          "use intrinsics for java.util.zip.CRC32C")                        \
                                                                             \
   develop(bool, TraceCallFixup, false,                                      \
           "Trace all call fixups")                                          \
@@ -2637,6 +2658,9 @@ class CommandLineFlags {
                                                                             \
   develop(bool, EagerInitialization, false,                                 \
           "Eagerly initialize classes if possible")                         \
+                                                                            \
+  diagnostic(bool, LogTouchedMethods, false,                                \
+          "Log methods which have been ever touched in runtime")            \
                                                                             \
   develop(bool, TraceMethodReplacement, false,                              \
           "Print when methods are replaced do to recompilation")            \

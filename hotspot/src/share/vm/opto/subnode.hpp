@@ -139,7 +139,11 @@ public:
   virtual Node *Identity( PhaseTransform *phase );
   const Type *add_id() const { return TypeInt::ZERO; }
   const Type *bottom_type() const { return TypeInt::CC; }
+#ifdef NO_FLAG_REG
+  virtual uint ideal_reg() const { return Op_RegI; }
+#else
   virtual uint ideal_reg() const { return Op_RegFlags; }
+#endif
 };
 
 //------------------------------CmpINode---------------------------------------

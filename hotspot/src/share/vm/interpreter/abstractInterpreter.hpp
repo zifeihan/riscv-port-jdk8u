@@ -42,6 +42,8 @@
 # include "interp_masm_zero.hpp"
 #elif defined TARGET_ARCH_MODEL_ppc_64
 # include "interp_masm_ppc_64.hpp"
+#elif defined TARGET_ARCH_MODEL_riscv64
+# include "interp_masm_riscv64.hpp"
 #endif
 
 // This file contains the platform-independent parts
@@ -101,6 +103,8 @@ class AbstractInterpreter: AllStatic {
     java_util_zip_CRC32_updateBytes,                            // implementation of java.util.zip.CRC32.updateBytes()
     java_util_zip_CRC32_updateByteBuffer,                       // implementation of java.util.zip.CRC32.updateByteBuffer()
     number_of_method_entries,
+   // java_lang_math_fmaF,                                        // implementation of java.lang.Math.fma   (x, y, z)
+   // java_lang_math_fmaD,                                        // implementation of java.lang.Math.fma   (x, y, z)
     invalid = -1
   };
 

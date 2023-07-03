@@ -25,7 +25,7 @@
 #include "precompiled.hpp"
 #include "jfr/utilities/jfrTime.hpp"
 #include "runtime/os.hpp"
-#if defined(X86) && !defined(ZERO)
+#if defined(X86) && !defined(ZERO) 
 #include "rdtsc_x86.hpp"
 #endif
 
@@ -45,7 +45,7 @@ bool JfrTime::initialize() {
 }
 
 bool JfrTime::is_ft_supported() {
-#if defined(X86) && !defined(ZERO)
+#if defined(X86) && !defined(ZERO) 
   return Rdtsc::is_supported();
 #else
   return false;
